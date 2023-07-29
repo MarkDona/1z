@@ -198,7 +198,7 @@ function readData(){
 
                     candidateName =  document.createElement("td");
                     candidateName.textContent = tokenData.candidateName;
-                  row.appendChild(candidateName);
+                    row.appendChild(candidateName);
                   
                     tokenStatus = document.createElement("td");
                     tokenStatus.textContent = tokenData.tokenStatus;
