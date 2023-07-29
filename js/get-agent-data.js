@@ -192,14 +192,14 @@ function readData(){
                     var row = document.createElement("tr");
 
                     // Create table data cells and populate with data
-                    link = document.createElement("td"); 
-                    link.textContent = tokenData.linkWithToken  + "?agentID=" + agentID + "&" + "tokenID=" + childSnapshot.key;
-                    link.setAttribute("class", "hide-column");       
-                    row.appendChild(link);
+                    token = document.createElement("td");
+                    token.textContent = tokenData.token;
+                    row.appendChild(token);
 
                     candidateName =  document.createElement("td");
                     candidateName.textContent = tokenData.candidateName;
-                    row.appendChild(candidateName);
+                  row.appendChild(candidateName);
+                  
                     tokenStatus = document.createElement("td");
                     tokenStatus.textContent = tokenData.tokenStatus;
                     row.appendChild(tokenStatus);
