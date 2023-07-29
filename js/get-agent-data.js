@@ -40,7 +40,6 @@ function countTokens() {
         var activeTokens = 0;
         var unverifiedTokens = 0;
         var verifiedTokens = 0;
-
             tokensRef.once("value").then(function(snapshot) {
                   snapshot.forEach(function(childSnapshot) {
                   var token = childSnapshot.val();
@@ -68,6 +67,7 @@ function countTokens() {
 
                 console.log("Total tokens: ", totalTokens);
                 console.log("Active tokens: ", activeTokens);
+                console.log("Unverified tokens: ", unverifiedTokens);
                 console.log("Unverified tokens: ", unverifiedTokens);
                 
             }).catch(function(error) {
