@@ -121,11 +121,12 @@ function readData(){
           console.log("AgentID: " + agentID);
 
           var tbody = document.querySelector("#data-table tbody");
+          var rbody = document.querySelector("#data-mobile tbody");
           tbody.innerHTML = "";
+          rbody.innerHTML = "";
 
 
             var agentCollectionId = agentID;
-
 
             var link = "";
             var token = "";
@@ -134,7 +135,8 @@ function readData(){
             var candidateName = "";
 
             // Reference to the subcollection
-            var tokencollectionRef = firebase.database().ref('agents/' + agentCollectionId + '/tokens');
+          var tokencollectionRef = firebase.database().ref('agents/' + agentCollectionId + '/tokens');
+          var tokencollectionRefm = firebase.database().ref('agents/' + agentCollectionId + '/tokens');
 
             // Retrieve the subcollection data
             tokencollectionRef.once('value')
@@ -174,6 +176,36 @@ function readData(){
 
                     // Append the row to the table body
                     tbody.appendChild(row);
+
+                })
+            })
+            .catch(function(error) {
+                console.error('Error retrieving subcollection data:', error);
+            });
+          
+          tokencollectionRefm.once('value')
+            .then(function(snapshot) {
+
+                snapshot.forEach(function(childSnapshot){
+                    var tokenData = childSnapshot.val();
+
+                    var row = document.createElement("tr");
+
+                    // Create table data cells and populate with data
+                    link = document.createElement("td"); 
+                    link.textContent = tokenData.linkWithToken  + "?agentID=" + agentID + "&" + "tokenID=" + childSnapshot.key;
+                    link.setAttribute("class", "hide-column");       
+                    row.appendChild(link);
+
+                    candidateName =  document.createElement("td");
+                    candidateName.textContent = tokenData.candidateName;
+                    row.appendChild(candidateName);
+                    tokenStatus = document.createElement("td");
+                    tokenStatus.textContent = tokenData.tokenStatus;
+                    row.appendChild(tokenStatus);
+
+                    // Append the row to the table body
+                    rbody.appendChild(row);
 
                 })
             })

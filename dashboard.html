@@ -129,7 +129,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-            <div class="card">
+          <div class="card" id="desktop">
               <div class="card-body">
                 <table id="data-table" class="table table-bordered table-striped">
                   <thead>
@@ -146,13 +146,30 @@
                   </tbody>
                 </table>
               </div>
-            </div>
+              <!-- /.card-body -->
+          </div>
+          <div class="card" id="mobile_data">
+              <div class="card-body">
+                <table id="data-mobile" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Link with Token</th>
+                    <th>Candidate Name</th>
+                    <th>Link Status</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+          </div>
         </div>
         </div>
     </section>
   </div>
 <div class="modal" id="modal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-body">
         <form id="generate_toke" action="https://sendmail.rf.htu.edu.gh/sendEmail.php" method="POST">
@@ -194,20 +211,16 @@ function logout() {
 }
 </script>
 <script>
-$(function () {
-    $("#data-table").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+  $(document).ready(function() {
+  $('#data-table').DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+});
+$(document).ready(function() {
+  $('#data-mobile').DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
   var modal = document.getElementById("modal");
   var openModalButton = document.getElementById("generate-url-btn");
   var closeModalButton = document.getElementById("close-modal-button");
