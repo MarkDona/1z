@@ -24,7 +24,7 @@ function getTokenIdFromFirebase() {
 
     return tokenId;
 
-  }
+}
 
 // Function to count the number of tokens and active tokens
 function countTokens() {
@@ -38,25 +38,38 @@ function countTokens() {
   
         var totalTokens = 0;
         var activeTokens = 0;
+        var unverifiedTokens = 0;
+        var verifiedTokens = 0;
 
             tokensRef.once("value").then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                var token = childSnapshot.val();
-                totalTokens++;
+                  snapshot.forEach(function(childSnapshot) {
+                  var token = childSnapshot.val();
+                  totalTokens++;
 
-                document.getElementById("total-Tokens").innerHTML = totalTokens;
+                  if(token){
+                    document.getElementById("total-Tokens").innerHTML = totalTokens;
 
-                if (token.tokenStatus === "Active") {
-                    activeTokens++;
-                    document.getElementById("total-Active-Tokens").innerHTML = activeTokens; 
-                }else {
-                    
-                    document.getElementById("total-Active-Tokens").innerHTML = activeTokens;
-                }
-                });
+                    if (token.tokenStatus === "Active") {
+                        activeTokens++;
+                        document.getElementById("total-Active-Tokens").innerHTML = activeTokens; 
+
+                    }else  if (token.tokenStatus === "unverified"){
+
+                      unverifiedTokens++;
+                      document.getElementById("total-Unverified-Tokens").innerHTML = unverifiedTokens;
+                    }else {
+
+                      verifiedTokens++;
+                      document.getElementById("total-Verified-Tokens").innerHTML = verifiedTokens;
+                    }
+                  }
+                  
+              });
 
                 console.log("Total tokens: ", totalTokens);
                 console.log("Active tokens: ", activeTokens);
+                console.log("Unverified tokens: ", unverifiedTokens);
+                
             }).catch(function(error) {
                 console.log("Error retrieving tokens: ", error);
             });
@@ -105,17 +118,13 @@ function disableButton(state) {
 //fetch agent, token and candidate info on dashboard load 
 function readData(){
 
-    // checkTokenStatus();
+    //checkTokenStatus();
     countTokens();
     //getTokenIdFromFirebase();
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
-
-        //   Send User Email to Form 
-          document.getElementById("agent-email").value = user.email;
-
 
           var agentID = user.uid;
           console.log("AgentID: " + agentID);
@@ -124,7 +133,6 @@ function readData(){
           var rbody = document.querySelector("#data-mobile tbody");
           tbody.innerHTML = "";
           rbody.innerHTML = "";
-
 
             var agentCollectionId = agentID;
 
@@ -146,7 +154,6 @@ function readData(){
                     var tokenData = childSnapshot.val();
 
                     var row = document.createElement("tr");
-
 
                     // Create table data cells and populate with data
                     tokenId = document.createElement("td");
@@ -183,7 +190,8 @@ function readData(){
                 console.error('Error retrieving subcollection data:', error);
             });
           
-          tokencollectionRefm.once('value')
+          
+        tokencollectionRefm.once('value')
             .then(function(snapshot) {
 
                 snapshot.forEach(function(childSnapshot){
@@ -218,4 +226,3 @@ function readData(){
 }
 
 window.onload = readData;
-

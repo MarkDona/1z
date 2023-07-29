@@ -17,7 +17,30 @@
   <script src="js/get-agent-data.js"></script>
   <script src="js/generate-token.js"></script>
   <script src="js/script.js"></script>
+<style>
+  #mobileDatatable {
+  display: none; /* Hide mobile datatable by default */
+}
+#mobile_data{
+  display: none;
+}
 
+/* Media query for mobile view */
+@media (max-width: 767px) {
+  #data-table {
+    display: none; /* Hide desktop datatable in mobile view */
+  }
+  #desktop {
+    display: none; /* Hide desktop datatable in mobile view */
+  }
+  #mobile_data{
+    display: block;
+  }
+  #mobileDatatable {
+    display: block; /* Show mobile datatable in mobile view */
+  }
+}
+</style>
   </head>
 <body>
   <div class="wrapper">
