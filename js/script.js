@@ -26,3 +26,13 @@ links.forEach(link => {
        forms.classList.toggle("show-signup");
     })
 })
+
+function logout() {
+  firebase.auth().signOut()
+    .then(() => {
+      window.location.href = "agent-login";
+    })
+    .catch((error) => {
+      console.error('Logout error:', error);
+    });
+}
