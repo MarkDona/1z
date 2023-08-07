@@ -8,7 +8,19 @@ function login() {
         var user = userCredential.user;
         agentID = user.uid;
 
-        window.location.href = "dashboard.html";
+        var databaseRef = firebase.database().ref("/agents/" + agentID);
+
+        databaseRef.once("value").then(function(snapshot){
+          var agentData = snapshot.val();
+
+          if (agentData.accountStatus == "unapproved"){
+            alert("Sorry your account is not yet approved!");
+          }else {
+            window.location.href = "dashboard.html";
+          }
+
+        })
+
       })
       .catch((error) => {
         // Handle sign-in errors
@@ -30,6 +42,8 @@ function login() {
     var password = document.getElementById("signupPasswordInput").value;
     var name = document.getElementById("nameInput").value;
     var phone = document.getElementById("phoneInput").value;
+    var roleSelect = document.getElementById('roleInput');
+    var roleValue = roleSelect.options[roleSelect.selectedIndex].value;
   
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -38,22 +52,48 @@ function login() {
         var user = userCredential.user;
         var agentID = user.uid;
 
+        var timestamp = new Date().toJSON();
+
         var databaseRef = firebase.database().ref("/agents/" + agentID);
+        
   
         var newDataRef = databaseRef;
+        
+
+        console.log(timestamp);
+
         newDataRef.set({
           agentName: name,
           agentEmail: email,
-          agentPhone: phone
+          agentPhone: phone,
+          createdAt: timestamp,
+          accountStatus: "unapproved",
+          role: roleValue,
+          tokens: ""
         })
         .then(function() {
+
           console.log("Data submitted successfully!");
-          window.location.href = "dashboard.html"; 
+
+          databaseRef.once("value").then(function(snapshot){
+            var agentData = snapshot.val();
+            if (agentData.accountStatus == "unapproved"){
+              alert("Sorry your account is not yet approved!");
+            }else {
+              window.location.href = "dashboard.html";
+            }
+
+          })
+           
         })
         .catch(function(error) {
           console.log("Error submitting data: ", error);
         });
-            
+        
+        var updates = {};
+        updates['/tokens/'] = "";
+        firebase.database().ref('agents/' + agentID).update(updates);
+
       })
       .catch((error) => {
         // Handle signup errors
@@ -63,6 +103,7 @@ function login() {
       });
       
     }
+
   
   function logout() {
     firebase.auth().signOut()
