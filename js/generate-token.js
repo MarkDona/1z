@@ -18,6 +18,7 @@ var newTokenKey = "";
         if (user) {
           // User is signed in.
           agentID = user.uid;
+          var timestamp = new Date().toJSON();
           console.log("AgentID: " + agentID);
 
           var tokenData = {
@@ -26,16 +27,13 @@ var newTokenKey = "";
           candidateEmail: candidateEmail,
           linkWithToken: `https://tsuks-marvelous-project.webflow.io/application-landing-page`,
           linkStatus: 'Copied',
-          tokenStatus: 'Active'
+          tokenStatus: 'Active',
+          createdAt: timestamp,
+          linkAccessedAt: '',
+          formSubmittedAt: ''
         };
 
         newTokenKey = firebase.database().ref().child('tokens').push().key;
-        
-        // Get The Newly Generated Link for Emailing 
-        var fullLink = `https://tsuks-marvelous-project.webflow.io/application-landing-page?agentID=` +agentID+'&tokenID=' +newTokenKey;
-        document.getElementById("generated-link").value = fullLink;
-        
-        
         var updates = {};
         updates['/tokens/' + newTokenKey] = tokenData;
         firebase.database().ref('agents/' + agentID).update(updates);
@@ -49,7 +47,9 @@ var newTokenKey = "";
     }
 
 
+
     function getCandidateData(){
+
        var candidateName = document.getElementById("candidate-name").value;
        var candidateEmail = document.getElementById("candidate-email").value;
 
@@ -67,7 +67,7 @@ var newTokenKey = "";
        saveTokenToFirebase(token, candidateName, candidateEmail);
      }
  
-    onfocus = function () {location.reload (true)}
+    //onfocus = function () {location.reload (true)}
 
     function showPopup() {
       var popupContainer = document.querySelector(".popup-container");
@@ -140,6 +140,7 @@ var newTokenKey = "";
         });
       });
     });
+
 
     function logout() {
       firebase.auth().signOut()
