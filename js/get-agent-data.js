@@ -300,9 +300,38 @@ function readData(){
             .catch(function(error) {
                 console.error('Error retrieving subcollection data:', error);
             });
+            
+                tokencollectionRefm.once('value')
+            .then(function(snapshot) {
+
+                snapshot.forEach(function(childSnapshot){
+                    var tokenData = childSnapshot.val();
+
+                    var row = document.createElement("tr");
+
+                    // Create table data cells and populate with data
+                    token = document.createElement("td");
+                    token.textContent = tokenData.token;
+                    row.appendChild(token);
+
+                    candidateName =  document.createElement("td");
+                    candidateName.textContent = tokenData.candidateName;
+                    row.appendChild(candidateName);
+                  
+                    tokenStatus = document.createElement("td");
+                    tokenStatus.textContent = tokenData.tokenStatus;
+                    row.appendChild(tokenStatus);
+
+                    // Append the row to the table body
+                    rbody.appendChild(row);
+
+                })
+            })
+            .catch(function(error) {
+                console.error('Error retrieving subcollection data:', error);
+            });
         }
-      });
-       
+      });  
 }
 
 window.onload = readData;
