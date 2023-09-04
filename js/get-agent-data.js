@@ -239,7 +239,9 @@ function readData(){
           console.log("AgentID: " + agentID);
 
           var tbody = document.querySelector("#data-table tbody");
+          var rbody = document.querySelector("#data-mobile tbody");
           tbody.innerHTML = "";
+          rbody.innerHTML = "";
 
             var agentCollectionId = agentID;
 
@@ -252,6 +254,7 @@ function readData(){
 
             // Reference to the subcollection
             var tokencollectionRef = firebase.database().ref('agents/' + agentCollectionId + '/tokens');
+            var tokencollectionRefm = firebase.database().ref('agents/' + agentCollectionId + '/tokens');
 
             // Retrieve the subcollection data
             tokencollectionRef.once('value')
