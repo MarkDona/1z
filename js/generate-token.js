@@ -27,7 +27,7 @@ var newTokenKey = "";
           candidateEmail: candidateEmail,
           linkWithToken: `https://tsuks-marvelous-project.webflow.io/application-landing-page`,
           linkStatus: 'Copied',
-          tokenStatus: 'Active',
+          tokenStatus: 'Unopened',
           createdAt: timestamp,
           linkAccessedAt: '',
           formSubmittedAt: ''
