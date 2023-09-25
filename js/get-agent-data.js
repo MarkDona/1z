@@ -7,7 +7,7 @@ function getTokenIdFromFirebase() {
 
         var databaseRef = firebase.database().ref('agents/' + agentID + '/tokens');
 
-        databaseRef.orderByChild("tokenStatus").equalTo("Active").once("value", function(snapshot) {
+        databaseRef.orderByChild("tokenStatus").equalTo("Unopened").once("value", function(snapshot) {
             var tokens = snapshot.val();
             if (tokens) {
               // Get the first token ID
@@ -48,11 +48,11 @@ function countTokens() {
                   if(token){
                     document.getElementById("total-Tokens").innerHTML = totalTokens;
 
-                    if (token.tokenStatus === "Active") {
+                    if (token.tokenStatus === "Unopened") {
                         activeTokens++;
                         document.getElementById("total-Active-Tokens").innerHTML = activeTokens; 
 
-                    }else  if (token.tokenStatus === "unverified"){
+                    }else  if (token.tokenStatus === "Opened"){
 
                       unverifiedTokens++;
                       document.getElementById("total-Unverified-Tokens").innerHTML = unverifiedTokens;
@@ -94,7 +94,7 @@ function checkTokenStatus() {
         Object.keys(tokens).forEach(function(tokenId) {
             var token = tokens[tokenId];
             //console.log("Token ID:", tokenId, "Status:", token.tokenStatus);
-            if (token.tokenStatus === "Active") {
+            if (token.tokenStatus === "Unopened") {
               // Token is active, disable the button
                 disableButton(true); 
                 //alert("Active Token Present..!");
